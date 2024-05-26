@@ -92,4 +92,9 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public void save(User newManager) {
+        userRepository.save(newManager);
+    }
+
 }

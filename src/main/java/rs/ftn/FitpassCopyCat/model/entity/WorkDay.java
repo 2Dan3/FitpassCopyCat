@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import rs.ftn.FitpassCopyCat.model.DTO.WorkDayDTO;
 import rs.ftn.FitpassCopyCat.model.enums.DayOfWeek;
 
 import javax.persistence.*;
@@ -21,14 +22,14 @@ public class WorkDay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "work_day_id", nullable = false, unique = true)
     private Long id;
-    @Column
-    private LocalDate validFrom;
+    @Column(nullable = false)
+    private LocalDate validSince;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;
-    @Column
+    @Column(nullable = false)
     private LocalTime from;
-    @Column
+    @Column(nullable = false)
     private LocalTime until;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,5 +51,13 @@ public class WorkDay {
     @Override
     public int hashCode() {
         return 9111;
+    }
+
+    public WorkDay(WorkDayDTO wdDTO, Facility facility) {
+        validSince = LocalDate.now();
+        day = wdDTO.getDay();
+        from = wdDTO.getFrom();
+        until = wdDTO.getUntil();
+        this.facility = facility;
     }
 }

@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import rs.ftn.FitpassCopyCat.model.DTO.DisciplineDTO;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "discipline")
@@ -41,5 +43,10 @@ public class Discipline {
     @Override
     public int hashCode() {
         return 3111;
+    }
+
+    public Discipline(DisciplineDTO disciplineDTO, Facility facility) {
+        this.name = disciplineDTO.getName();
+        this.facility = facility;
     }
 }

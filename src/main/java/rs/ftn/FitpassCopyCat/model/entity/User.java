@@ -47,8 +47,8 @@ public class User implements Serializable {
     private String city;
     @Column
     private String zipCode;
-//    todo check CascadeType.MERGE for potential issues
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
+//    todo check adding CascadeType.MERGE & persist vs potential issues
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.REMOVE},fetch = FetchType.EAGER)
     private Image image;
 
     @ManyToMany( cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH }, fetch = FetchType.EAGER )

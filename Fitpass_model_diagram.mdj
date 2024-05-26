@@ -3211,7 +3211,7 @@
 											"font": "Arial;13;1",
 											"left": 381,
 											"top": 743,
-											"width": 127.15625,
+											"width": 129.34619140625,
 											"height": 13,
 											"text": "WorkDay"
 										},
@@ -3246,7 +3246,7 @@
 									"font": "Arial;13;0",
 									"left": 376,
 									"top": 736,
-									"width": 137.15625,
+									"width": 139.34619140625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGPqdC3GdJRRoY="
@@ -3283,9 +3283,9 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 766,
-											"width": 127.15625,
+											"width": 129.34619140625,
 											"height": 13,
-											"text": "-validFrom: LocalDate",
+											"text": "-validSince: LocalDate",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3300,7 +3300,7 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 781,
-											"width": 127.15625,
+											"width": 129.34619140625,
 											"height": 13,
 											"text": "-day: DayOfWeek",
 											"horizontalAlignment": 0
@@ -3317,7 +3317,7 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 796,
-											"width": 127.15625,
+											"width": 129.34619140625,
 											"height": 13,
 											"text": "-from: LocalTime",
 											"horizontalAlignment": 0
@@ -3334,7 +3334,7 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 811,
-											"width": 127.15625,
+											"width": 129.34619140625,
 											"height": 13,
 											"text": "-until: LocalTime",
 											"horizontalAlignment": 0
@@ -3343,7 +3343,7 @@
 									"font": "Arial;13;0",
 									"left": 376,
 									"top": 761,
-									"width": 137.15625,
+									"width": 139.34619140625,
 									"height": 68
 								},
 								{
@@ -3358,7 +3358,7 @@
 									"font": "Arial;13;0",
 									"left": 376,
 									"top": 829,
-									"width": 137.15625,
+									"width": 139.34619140625,
 									"height": 10
 								},
 								{
@@ -3398,7 +3398,7 @@
 							"containerChangeable": true,
 							"left": 376,
 							"top": 736,
-							"width": 137.15625,
+							"width": 139.34619140625,
 							"height": 103,
 							"nameCompartment": {
 								"$ref": "AAAAAAGPqdC3GdJQiHQ="
@@ -7640,7 +7640,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGPqdC3GNJNFCg="
 							},
-							"name": "validFrom",
+							"name": "validSince",
 							"visibility": "private",
 							"type": "LocalDate"
 						},

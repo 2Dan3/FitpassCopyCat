@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import rs.ftn.FitpassCopyCat.model.entity.Facility;
 import rs.ftn.FitpassCopyCat.model.entity.User;
 import rs.ftn.FitpassCopyCat.service.FacilityService;
 import rs.ftn.FitpassCopyCat.service.ImageService;
@@ -15,10 +16,13 @@ import rs.ftn.FitpassCopyCat.service.UserService;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "${apiPrefix}/image")
@@ -34,28 +38,26 @@ public class ImageController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> uploadOwnUserImage(@RequestParam("imageFile") MultipartFile file, Authentication loggedUser) throws IOException {
+    public ResponseEntity<Void> uploadOwnUserImage(@RequestParam("file") MultipartFile file, Authentication loggedUser) throws IOException {
 
         User subjectUser = userService.findByEmail(loggedUser.getName());
         if (subjectUser == null)
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-//        Map<String,String> response = new HashMap<>();
-        String imagePath = imageService.save(file.getBytes(), file.getOriginalFilename(), subjectUser);
-//        response.put("path", imagePath);
+        /*String path =*/ imageService.saveUserImage(file.getBytes(), file.getOriginalFilename(), subjectUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//  todo
-//    @PostMapping(path = "/facility/{id}")
-//    public ResponseEntity<Map<String,String>> uploadFacilityImages(@RequestParam("imageFile") MultipartFile file) throws IOException {
-//        Map<String,String> response = new HashMap<>();
-//        System.out.println("Original Image Byte Size - " + file.getBytes().length);
-//        String path = imageRepository.save(file.getBytes(),file.getOriginalFilename());
-//        response.put("path",path);
-//        return new ResponseEntity(response, HttpStatus.OK);
-//    }
+    @PostMapping(path = "/facility/{id}")
+    public ResponseEntity<Map<String,String>> uploadFacilityImages(@RequestBody @NotBlank HashMap<String, MultipartFile> files, @PathVariable Long id) throws IOException {
 
+        Facility targetFacility = facilityService.findById(id);
+        if (targetFacility == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        /*String path =*/ imageService.saveFacilityImages(files, targetFacility);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping

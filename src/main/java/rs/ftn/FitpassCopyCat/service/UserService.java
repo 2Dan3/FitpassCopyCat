@@ -36,6 +36,8 @@ public interface UserService {
     boolean changeOwnData(ChangeDataUserDTO newData, User foundUser);
 
     boolean changeOwnPassword(String oldPass, String newPass, User subjectUser);
+
+    void save(User newManager);
 //    //    TODO: use for checks in Web's configure()
 //    boolean isUserBanned(User user, Community community);
 //
