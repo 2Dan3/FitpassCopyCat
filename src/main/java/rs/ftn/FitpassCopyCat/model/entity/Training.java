@@ -9,15 +9,15 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "exercise")
+@Table(name = "training")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Exercise {
+public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "exercise_id", nullable = false, unique = true)
+    @Column(name = "training_id", nullable = false, unique = true)
     private Long id;
     @Column
     private LocalDateTime from;
@@ -40,7 +40,7 @@ public class Exercise {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Exercise e = (Exercise) o;
+        Training e = (Training) o;
         return id != null && id.equals(e.getId());
     }
 
