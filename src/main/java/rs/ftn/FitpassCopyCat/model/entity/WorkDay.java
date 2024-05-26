@@ -22,15 +22,15 @@ public class WorkDay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "work_day_id", nullable = false, unique = true)
     private Long id;
-    @Column(nullable = false)
+    @Column
     private LocalDate validSince;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;
-    @Column(nullable = false)
-    private LocalTime from;
-    @Column(nullable = false)
-    private LocalTime until;
+    @Column
+    private LocalTime fromHours;
+    @Column
+    private LocalTime untilHours;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "facility_id")
@@ -56,8 +56,8 @@ public class WorkDay {
     public WorkDay(WorkDayDTO wdDTO, Facility facility) {
         validSince = LocalDate.now();
         day = wdDTO.getDay();
-        from = wdDTO.getFrom();
-        until = wdDTO.getUntil();
+        fromHours = wdDTO.getFrom();
+        untilHours = wdDTO.getUntil();
         this.facility = facility;
     }
 }

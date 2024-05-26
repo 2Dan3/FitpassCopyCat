@@ -24,7 +24,7 @@ public class WorkDayDTO {
 
     public WorkDayDTO(WorkDay workDay) {
         this.day = workDay.getDay();
-        this.from = workDay.getFrom();
-        this.until = workDay.getUntil();
+        this.from = workDay.getFromHours();
+        this.until = workDay.getUntilHours();
     }
 }

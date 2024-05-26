@@ -28,7 +28,7 @@ public class Facility {
     private String name;
     @Column(nullable = false)
     private String description;
-    @Column(nullable = false)
+    @Column
     private LocalDate createdAt;
     @Column(nullable = false)
     private String address;
@@ -40,7 +40,7 @@ public class Facility {
     private Boolean active;
 
     @OneToMany(mappedBy = "facility", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private Set<Discipline> discipline = new HashSet<>();
+    private Set<Discipline> disciplines = new HashSet<>();
 
     @OneToMany(mappedBy = "facility", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private Set<WorkDay> workDays = new HashSet<>();
@@ -78,7 +78,7 @@ public class Facility {
 
         for (DisciplineDTO d : facilityCreateDTO.getDisciplineDTO()) {
             Discipline dsc = new Discipline(d, this);
-            discipline.add(dsc);
+            disciplines.add(dsc);
         }
 
         for (WorkDayDTO wdDTO : facilityCreateDTO.getWorkDaysDTO()) {

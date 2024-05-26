@@ -35,7 +35,7 @@ public class User implements Serializable {
     private String name;
     @Column
     private String surname;
-    @Column(nullable = false)
+    @Column
     private LocalDate createdAt;
     @Column
     private String phoneNumber;

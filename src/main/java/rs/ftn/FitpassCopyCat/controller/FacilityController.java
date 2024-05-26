@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import rs.ftn.FitpassCopyCat.model.DTO.FacilityCreateDTO;
 import rs.ftn.FitpassCopyCat.model.DTO.FacilityResponseDTO;
 import rs.ftn.FitpassCopyCat.model.entity.Facility;
@@ -41,5 +38,50 @@ public class FacilityController {
         newFacility = facilityService.save(newFacility);
 
         return new ResponseEntity<>(new FacilityResponseDTO(newFacility), HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/{facilityId}/managers")
+    public ResponseEntity<Void> putManager(@PathVariable(name = "facilityId") Long facilityId, @RequestBody String userEmail) {
+
+        Facility targetedFacility = facilityService.findById(facilityId);
+        if (targetedFacility == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        User wantedUser = userService.findByEmail(userEmail);
+        if (wantedUser == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        wantedUser.getManagedFacilities().add(targetedFacility);
+        targetedFacility.getManagers().add(wantedUser);
+
+        if (!targetedFacility.getActive())
+            targetedFacility.setActive(true);
+
+        userService.save(wantedUser);
+        facilityService.save(targetedFacility);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping(path = "/{facilityId}/managers")
+    public ResponseEntity<Void> removeManager(@PathVariable(name = "facilityId") Long facilityId, @RequestBody String managerEmail) {
+
+        Facility targetedFacility = facilityService.findById(facilityId);
+        if (targetedFacility == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        User wantedManager = userService.findByEmail(managerEmail);
+        if (wantedManager == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        if (wantedManager.getManagedFacilities().remove(targetedFacility) == false && targetedFacility.getManagers().remove(wantedManager) == false)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        if (targetedFacility.getManagers().isEmpty())
+            targetedFacility.setActive(false);
+
+        userService.save(wantedManager);
+        facilityService.save(targetedFacility);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

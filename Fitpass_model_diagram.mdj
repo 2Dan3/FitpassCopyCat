@@ -1107,7 +1107,7 @@
 											"top": 381,
 											"width": 154.14013671875,
 											"height": 13,
-											"text": "-exerciseCount: Integer",
+											"text": "-trainingCount: Integer",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3211,7 +3211,7 @@
 											"font": "Arial;13;1",
 											"left": 381,
 											"top": 743,
-											"width": 129.34619140625,
+											"width": 131.7138671875,
 											"height": 13,
 											"text": "WorkDay"
 										},
@@ -3246,7 +3246,7 @@
 									"font": "Arial;13;0",
 									"left": 376,
 									"top": 736,
-									"width": 139.34619140625,
+									"width": 141.7138671875,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGPqdC3GdJRRoY="
@@ -3283,7 +3283,7 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 766,
-											"width": 129.34619140625,
+											"width": 131.7138671875,
 											"height": 13,
 											"text": "-validSince: LocalDate",
 											"horizontalAlignment": 0
@@ -3300,7 +3300,7 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 781,
-											"width": 129.34619140625,
+											"width": 131.7138671875,
 											"height": 13,
 											"text": "-day: DayOfWeek",
 											"horizontalAlignment": 0
@@ -3317,9 +3317,9 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 796,
-											"width": 129.34619140625,
+											"width": 131.7138671875,
 											"height": 13,
-											"text": "-from: LocalTime",
+											"text": "-fromHours: LocalTime",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3334,16 +3334,16 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 811,
-											"width": 129.34619140625,
+											"width": 131.7138671875,
 											"height": 13,
-											"text": "-until: LocalTime",
+											"text": "-untilHours: LocalTime",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 376,
 									"top": 761,
-									"width": 139.34619140625,
+									"width": 141.7138671875,
 									"height": 68
 								},
 								{
@@ -3358,7 +3358,7 @@
 									"font": "Arial;13;0",
 									"left": 376,
 									"top": 829,
-									"width": 139.34619140625,
+									"width": 141.7138671875,
 									"height": 10
 								},
 								{
@@ -3398,7 +3398,7 @@
 							"containerChangeable": true,
 							"left": 376,
 							"top": 736,
-							"width": 139.34619140625,
+							"width": 141.7138671875,
 							"height": 103,
 							"nameCompartment": {
 								"$ref": "AAAAAAGPqdC3GdJQiHQ="
@@ -5270,9 +5270,9 @@
 											"font": "Arial;13;1",
 											"left": 381,
 											"top": 399,
-											"width": 124.49658203125,
+											"width": 159.173828125,
 											"height": 13,
-											"text": "Exercise"
+											"text": "Training"
 										},
 										{
 											"_type": "LabelView",
@@ -5305,7 +5305,7 @@
 									"font": "Arial;13;0",
 									"left": 376,
 									"top": 392,
-									"width": 134.49658203125,
+									"width": 169.173828125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGPqdqF/EWQkRo="
@@ -5342,9 +5342,9 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 422,
-											"width": 124.49658203125,
+											"width": 159.173828125,
 											"height": 13,
-											"text": "-from: LocalDateTime",
+											"text": "-fromHours: LocalDateTime",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5359,16 +5359,16 @@
 											"font": "Arial;13;0",
 											"left": 381,
 											"top": 437,
-											"width": 124.49658203125,
+											"width": 159.173828125,
 											"height": 13,
-											"text": "-until: LocalDateTime",
+											"text": "-untilHours: LocalDateTime",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 376,
 									"top": 417,
-									"width": 134.49658203125,
+									"width": 169.173828125,
 									"height": 38
 								},
 								{
@@ -5383,7 +5383,7 @@
 									"font": "Arial;13;0",
 									"left": 376,
 									"top": 455,
-									"width": 134.49658203125,
+									"width": 169.173828125,
 									"height": 10
 								},
 								{
@@ -5423,7 +5423,7 @@
 							"containerChangeable": true,
 							"left": 376,
 							"top": 392,
-							"width": 134.49658203125,
+							"width": 169.173828125,
 							"height": 73,
 							"nameCompartment": {
 								"$ref": "AAAAAAGPqdqF/EWPLZg="
@@ -7305,7 +7305,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGPqcF1W4BO7RQ="
 							},
-							"name": "exerciseCount",
+							"name": "trainingCount",
 							"visibility": "private",
 							"type": "Integer"
 						},
@@ -7660,7 +7660,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGPqdC3GNJNFCg="
 							},
-							"name": "from",
+							"name": "fromHours",
 							"visibility": "private",
 							"type": "LocalTime"
 						},
@@ -7670,7 +7670,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGPqdC3GNJNFCg="
 							},
-							"name": "until",
+							"name": "untilHours",
 							"visibility": "private",
 							"type": "LocalTime"
 						}
@@ -7856,7 +7856,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Exercise",
+					"name": "Training",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -7930,7 +7930,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGPqdqF+0WMBi8="
 							},
-							"name": "from",
+							"name": "fromHours",
 							"visibility": "private",
 							"type": "LocalDateTime"
 						},
@@ -7940,7 +7940,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGPqdqF+0WMBi8="
 							},
-							"name": "until",
+							"name": "untilHours",
 							"visibility": "private",
 							"type": "LocalDateTime"
 						}

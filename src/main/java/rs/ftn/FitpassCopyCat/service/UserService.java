@@ -38,6 +38,8 @@ public interface UserService {
     boolean changeOwnPassword(String oldPass, String newPass, User subjectUser);
 
     void save(User newManager);
+
+    User findById(Long id);
 //    //    TODO: use for checks in Web's configure()
 //    boolean isUserBanned(User user, Community community);
 //

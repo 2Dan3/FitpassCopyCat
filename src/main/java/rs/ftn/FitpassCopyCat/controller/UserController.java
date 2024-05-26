@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import rs.ftn.FitpassCopyCat.model.DTO.*;
 import rs.ftn.FitpassCopyCat.model.entity.AccountRequest;
+import rs.ftn.FitpassCopyCat.model.entity.Facility;
 import rs.ftn.FitpassCopyCat.model.entity.User;
 import rs.ftn.FitpassCopyCat.security.TokenUtils;
 import rs.ftn.FitpassCopyCat.service.AccountRequestService;
@@ -189,9 +190,12 @@ public class UserController {
 //            todo (name, surname, birthday) is separated in API Endpoint "verifyAccount",
 //              where account data is only being put in for the very 1st time
 
-//    @DeleteMapping("/{id}")
+
+
+//  todo
+//    @PutMapping("/{id}")
 //    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<String> removeUser(@PathVariable Long id) {
+//    public ResponseEntity<String> resolveAccountRequestStatus(@PathVariable Long id) {
 //        User foundUser = userService.findById(id);
 //        if(foundUser == null) {
 //            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -199,6 +203,22 @@ public class UserController {
 //        userService.remove(foundUser);
 //        return new ResponseEntity<>(null, HttpStatus.OK);
 //    }
+
+    @GetMapping("/{id}/moderates")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<List<FacilityOverviewDTO>> getFacilitiesManagedBy(@PathVariable(name = "id") Long managerId, Authentication loggedUser) {
+
+        User foundUser = userService.findById(managerId);
+        if (foundUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        List<FacilityOverviewDTO> managedFacilities = new ArrayList<>();
+        for (Facility f : foundUser.getManagedFacilities()) {
+            managedFacilities.add(new FacilityOverviewDTO(f));
+        }
+        return new ResponseEntity<>(managedFacilities, HttpStatus.OK);
+    }
 
     @PostMapping(value = "/logout")
     public ResponseEntity<Void> invalidateToken() {

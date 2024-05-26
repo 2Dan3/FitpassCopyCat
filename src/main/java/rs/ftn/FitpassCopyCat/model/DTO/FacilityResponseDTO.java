@@ -46,7 +46,7 @@ public class FacilityResponseDTO {
         }
 
         this.disciplineNames = new ArrayList<>();
-        for (Discipline d : facility.getDiscipline()) {
+        for (Discipline d : facility.getDisciplines()) {
             this.disciplineNames.add(d.getName());
         }
 

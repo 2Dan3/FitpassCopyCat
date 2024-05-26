@@ -37,6 +37,14 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+    @Override
+    public User findById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isEmpty()) {
+            return user.get();
+        }
+        return null;
+    }
 //    todo
     @Override
     public boolean managesFacility(Long facilityId, User manager) {

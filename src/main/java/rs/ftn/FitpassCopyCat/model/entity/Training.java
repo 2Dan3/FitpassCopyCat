@@ -20,9 +20,9 @@ public class Training {
     @Column(name = "training_id", nullable = false, unique = true)
     private Long id;
     @Column
-    private LocalDateTime from;
+    private LocalDateTime fromHours;
     @Column
-    private LocalDateTime until;
+    private LocalDateTime untilHours;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "facility_id")

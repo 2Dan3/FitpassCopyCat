@@ -23,7 +23,7 @@ public class Review {
     @Column
     private LocalDateTime createdAt;
     @Column
-    private Integer exerciseCount;
+    private Integer trainingCount;
     @Column
     private Boolean hidden;
 
