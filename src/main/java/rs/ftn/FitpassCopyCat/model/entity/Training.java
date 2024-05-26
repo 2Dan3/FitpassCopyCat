@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import rs.ftn.FitpassCopyCat.model.DTO.TrainingCreateDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,6 +32,13 @@ public class Training {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Training(TrainingCreateDTO trainingData, Facility facility, User trainee) {
+        fromHours = trainingData.getFromHours();
+        untilHours = trainingData.getUntilHours();
+        this.facility = facility;
+        user = trainee;
+    }
 
     @Override
     public boolean equals(Object o) {
