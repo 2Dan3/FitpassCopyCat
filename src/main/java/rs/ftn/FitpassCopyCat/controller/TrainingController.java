@@ -49,12 +49,17 @@ public class TrainingController {
 
     @PostMapping
     public ResponseEntity<TrainingDTO> scheduleTrainingForLoggedUser(@Valid @RequestBody TrainingCreateDTO trainingData, Authentication authenticatedUser) {
+        if (trainingData.getFromHours().isAfter(trainingData.getUntilHours()))
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
         User loggedTrainee = userService.findByEmail(authenticatedUser.getName());
         if (loggedTrainee == null)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         Facility trainingFacility = facilityService.findById(trainingData.getFacilityId());
         if (trainingFacility == null)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (!trainingService.reservationIsWithinWorkHours(trainingData, trainingFacility))
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
 
         Training scheduledTraining = trainingService.scheduleTraining(trainingData, trainingFacility, loggedTrainee);
         if (scheduledTraining == null)

@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface TrainingRepository extends JpaRepository<Training, Long> {
 
-    @Query("SELECT * FROM Training t WHERE t.user.id = :traineeId")
+    @Query("SELECT t FROM Training t WHERE t.user.id = :traineeId")
     List<Training> findAllByTrainee(@Param("traineeId") Long traineeId);
 
     @Query("SELECT COUNT(1) FROM Training t WHERE t.facility.id = :facilityId AND :wantedFrom > t.fromHours AND :wantedUntil < t.untilHours")

@@ -17,7 +17,7 @@ public class WebSecurity {
 
     @Autowired
     private UserService userService;
-    @Autowired
+//    @Autowired
 //    private PostService postService;
 //    @Autowired
 //    private CommentService commentService;

@@ -11,4 +11,6 @@ public interface TrainingService {
     List<Training> getTrainingsBy(User trainee);
 
     Training scheduleTraining(TrainingCreateDTO trainingData, Facility trainingFacility, User trainee);
+
+    boolean reservationIsWithinWorkHours(TrainingCreateDTO trainingData, Facility trainingFacility);
 }

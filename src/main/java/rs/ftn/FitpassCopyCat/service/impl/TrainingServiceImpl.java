@@ -6,9 +6,11 @@ import rs.ftn.FitpassCopyCat.model.DTO.TrainingCreateDTO;
 import rs.ftn.FitpassCopyCat.model.entity.Facility;
 import rs.ftn.FitpassCopyCat.model.entity.Training;
 import rs.ftn.FitpassCopyCat.model.entity.User;
+import rs.ftn.FitpassCopyCat.model.entity.WorkDay;
 import rs.ftn.FitpassCopyCat.repository.TrainingRepository;
 import rs.ftn.FitpassCopyCat.service.TrainingService;
 
+import java.time.DayOfWeek;
 import java.util.List;
 
 @Service
@@ -32,5 +34,17 @@ public class TrainingServiceImpl implements TrainingService {
             return null;
 
         return trainingRepository.save(new Training(trainingData, trainingFacility, trainee));
+    }
+
+    @Override
+    public boolean reservationIsWithinWorkHours(TrainingCreateDTO trainingData, Facility trainingFacility) {
+        for (WorkDay wd : trainingFacility.getWorkDays()) {
+            if (wd.getDay().equals(trainingData.getFromHours().getDayOfWeek())) {
+                if (wd.getFromHours().isAfter(trainingData.getFromHours().toLocalTime()) || wd.getUntilHours().isBefore(trainingData.getUntilHours().toLocalTime()))
+                    return false;
+                break;
+            }
+        }
+        return true;
     }
 }

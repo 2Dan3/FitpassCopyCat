@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import rs.ftn.FitpassCopyCat.model.DTO.WorkDayDTO;
-import rs.ftn.FitpassCopyCat.model.enums.DayOfWeek;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
