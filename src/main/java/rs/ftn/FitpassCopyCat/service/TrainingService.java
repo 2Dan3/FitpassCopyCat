@@ -13,4 +13,6 @@ public interface TrainingService {
     Training scheduleTraining(TrainingCreateDTO trainingData, Facility trainingFacility, User trainee);
 
     boolean reservationIsWithinWorkHours(TrainingCreateDTO trainingData, Facility trainingFacility);
+
+    int countTrainings(User trainee, Facility facility);
 }

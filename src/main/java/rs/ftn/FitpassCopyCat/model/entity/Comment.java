@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import rs.ftn.FitpassCopyCat.model.DTO.CommentCreateDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -35,6 +36,13 @@ public class Comment {
 
     @ManyToOne()
     private Comment parentComment;
+
+    public Comment(CommentCreateDTO commentData, User author, LocalDateTime creationTimestamp) {
+        this.text = commentData.getText();
+        this.createdAt = creationTimestamp;
+        this.author = author;
+//        this.parentComment =
+    }
 
     @Override
     public boolean equals(Object o) {

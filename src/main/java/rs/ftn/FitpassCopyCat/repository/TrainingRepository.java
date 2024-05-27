@@ -17,4 +17,7 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
 
     @Query("SELECT COUNT(1) FROM Training t WHERE t.facility.id = :facilityId AND :wantedFrom > t.fromHours AND :wantedUntil < t.untilHours")
     Integer countOverlappingTrainings(@Param("wantedFrom") LocalDateTime fromHours, @Param("wantedUntil") LocalDateTime untilHours, @Param("facilityId") Long facilityId);
+
+    @Query("SELECT COUNT(t) FROM Training t WHERE t.user.id = :traineeId AND t.facility.id = :facilityId")
+    Integer countTrainingsByUserInFacility(Long traineeId, Long facilityId);
 }

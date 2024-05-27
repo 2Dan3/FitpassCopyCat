@@ -19,8 +19,8 @@ public class FacilityCreateDTO {
     private String address;
     @NotBlank
     private String city;
-    @NotBlank
+//    @NotBlank
     private List<DisciplineDTO> disciplineDTO;
-    @NotBlank
+//    @NotBlank
     private List<WorkDayDTO> workDaysDTO;
 }

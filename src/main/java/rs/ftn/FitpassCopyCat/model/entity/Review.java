@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import rs.ftn.FitpassCopyCat.model.DTO.CommentCreateDTO;
+import rs.ftn.FitpassCopyCat.model.DTO.RatingCreateDTO;
+import rs.ftn.FitpassCopyCat.model.DTO.ReviewCreateDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,7 +34,8 @@ public class Review {
     @JoinColumn(name = "rating_id")
     private Rating rating;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+//    todo check Lazy -> Eager if needed
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
@@ -39,6 +43,10 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "facility_id", nullable = false)
+    private Facility facility;
 
     @Override
     public boolean equals(Object o) {
@@ -55,5 +63,24 @@ public class Review {
     @Override
     public int hashCode() {
         return 8111;
+    }
+
+    public Review(ReviewCreateDTO reviewData, Facility facilityReviewed,
+                  User author, int trainingsDone) {
+
+        final LocalDateTime creationTimestamp = LocalDateTime.now();
+
+        CommentCreateDTO commentData = reviewData.getCommentData();
+        if (commentData != null) {
+            Comment newComment = new Comment(commentData, author, creationTimestamp);
+            this.comment = newComment;
+        }
+        RatingCreateDTO ratingData = reviewData.getRatingData();
+        this.rating = new Rating(ratingData);
+        this.author = author;
+        this.facility = facilityReviewed;
+        trainingCount = trainingsDone;
+        hidden = false;
+        createdAt = creationTimestamp;
     }
 }

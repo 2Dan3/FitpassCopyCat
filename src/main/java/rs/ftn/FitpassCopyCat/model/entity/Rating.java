@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import rs.ftn.FitpassCopyCat.model.DTO.RatingCreateDTO;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -28,6 +29,13 @@ public class Rating {
     private Integer hygiene;
     @Column
     private Integer space;
+
+    public Rating(RatingCreateDTO ratingData) {
+        this.equipment = ratingData.getEquipment();
+        this.staff = ratingData.getStaff();
+        this.hygiene = ratingData.getHygiene();
+        this.space = ratingData.getSpace();
+    }
 
 //    @OneToMany(mappedBy = "rating", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE,   CascadeType.REFRESH})
 //    private Set<Review> reviews = new HashSet<Review>();

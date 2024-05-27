@@ -47,4 +47,9 @@ public class TrainingServiceImpl implements TrainingService {
         }
         return true;
     }
+
+    @Override
+    public int countTrainings(User trainee, Facility facility) {
+        return trainingRepository.countTrainingsByUserInFacility(trainee.getId(), facility.getId());
+    }
 }
