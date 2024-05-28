@@ -23,12 +23,13 @@ public class FacilityResponseDTO {
     private String city;
     private Double totalRating;
     private Boolean active;
+    private Boolean loggedUserManages = false;
     private List<String> managerEmails;
     private List<String> disciplineNames;
     private List<WorkDayDTO> workDayDTOS;
     private List<String> imagePaths;
 
-    public FacilityResponseDTO(Facility facility) {
+    public FacilityResponseDTO(Facility facility, boolean loggedUserManages) {
         this.id = facility.getId();
         this.name = facility.getName();
         this.description = facility.getDescription();
@@ -37,6 +38,7 @@ public class FacilityResponseDTO {
         this.city = facility.getCity();
         this.totalRating = facility.getTotalRating();
         this.active = facility.getActive();
+        this.loggedUserManages = loggedUserManages;
 
         this.managerEmails = new ArrayList<>();
         for (User manager : facility.getManagers()) {

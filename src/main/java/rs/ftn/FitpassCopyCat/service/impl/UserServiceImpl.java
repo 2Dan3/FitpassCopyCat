@@ -45,10 +45,10 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
-//    todo
+
     @Override
     public boolean managesFacility(Long facilityId, User manager) {
-        return false;
+        return userRepository.findManager(facilityId, manager.getId()) == 0 ? false : true;
     }
 
     @Override
@@ -104,5 +104,4 @@ public class UserServiceImpl implements UserService {
     public void save(User newManager) {
         userRepository.save(newManager);
     }
-
 }

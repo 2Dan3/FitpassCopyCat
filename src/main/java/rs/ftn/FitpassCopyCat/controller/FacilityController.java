@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import rs.ftn.FitpassCopyCat.model.DTO.FacilityCreateDTO;
+import rs.ftn.FitpassCopyCat.model.DTO.FacilityOverviewDTO;
 import rs.ftn.FitpassCopyCat.model.DTO.FacilityResponseDTO;
 import rs.ftn.FitpassCopyCat.model.DTO.ReviewOverviewDTO;
 import rs.ftn.FitpassCopyCat.model.entity.Facility;
@@ -45,7 +46,33 @@ public class FacilityController {
         userService.save(newManager);
         newFacility = facilityService.save(newFacility);
 
-        return new ResponseEntity<>(new FacilityResponseDTO(newFacility), HttpStatus.OK);
+        return new ResponseEntity<>(new FacilityResponseDTO(newFacility, true), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{facilityId}")
+    public ResponseEntity<FacilityResponseDTO> getFacility(@PathVariable(name = "facilityId") Long facilityId, Authentication authentication) {
+
+        Facility facility = facilityService.findById(facilityId);
+        if (facility == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        User loggedUser = userService.findByEmail(authentication.getName());
+        final boolean loggedUserManagesFacility = userService.managesFacility(facility.getId(), loggedUser);
+
+        return new ResponseEntity<>(new FacilityResponseDTO(facility, loggedUserManagesFacility), HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<FacilityOverviewDTO>> getAllFacilities() {
+
+        List<Facility> facilities = facilityService.getAllActive();
+
+        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
+        for (Facility f : facilities) {
+            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+        }
+
+        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
     }
 
     @PutMapping(path = "/{facilityId}/managers")

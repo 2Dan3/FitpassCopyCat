@@ -7,6 +7,7 @@ import rs.ftn.FitpassCopyCat.repository.FacilityRepository;
 import rs.ftn.FitpassCopyCat.repository.ReviewRepository;
 import rs.ftn.FitpassCopyCat.service.FacilityService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,6 +36,11 @@ public class FacilityServiceImpl implements FacilityService {
         Double newlyCalculatedRating = reviewRepository.findAverageReviewRating(facilityReviewed.getId());
         facilityReviewed.setTotalRating(newlyCalculatedRating);
         facilityRepository.save(facilityReviewed);
+    }
+
+    @Override
+    public List<Facility> getAllActive() {
+        return facilityRepository.getAllActive();
     }
 
 }
