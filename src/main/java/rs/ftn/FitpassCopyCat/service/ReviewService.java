@@ -12,4 +12,6 @@ public interface ReviewService {
     List<Review> getReviewsByUser(User user);
 
     List<Review> getReviewsOnFacility(Facility facility);
+
+    Review findById(Long reviewId);
 }

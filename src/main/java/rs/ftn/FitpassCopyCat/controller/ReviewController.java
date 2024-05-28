@@ -70,4 +70,40 @@ public class ReviewController {
 
         return new ResponseEntity<>(reviewDTOs, HttpStatus.OK);
     }
+
+    @PutMapping(path = "/{reviewId}")
+    public ResponseEntity<Void> hideReview(@PathVariable(name = "reviewId") Long reviewId, Authentication authentication) {
+        Review review = reviewService.findById(reviewId);
+        if (review == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        User loggedUser = userService.findByEmail(authentication.getName());
+        Facility facility = review.getFacility();
+
+        if ( ! userService.managesFacility(facility.getId(), loggedUser) )
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        review.setHidden(true);
+        reviewService.save(review);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{reviewId}")
+    public ResponseEntity<Void> removeReview(@PathVariable(name = "reviewId") Long reviewId, Authentication authentication) {
+        Review review = reviewService.findById(reviewId);
+        if (review == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        User loggedUser = userService.findByEmail(authentication.getName());
+        Facility facility = review.getFacility();
+
+        if ( ! userService.managesFacility(facility.getId(), loggedUser) )
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        review.setRemoved(true);
+        reviewService.save(review);
+        facilityService.updateFacilityRating(facility);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

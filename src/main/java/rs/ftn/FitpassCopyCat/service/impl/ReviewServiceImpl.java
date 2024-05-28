@@ -32,4 +32,9 @@ public class ReviewServiceImpl implements ReviewService {
     public List<Review> getReviewsOnFacility(Facility facility) {
         return reviewRepository.findByFacilityAndRemovedFalse(facility);
     }
+
+    @Override
+    public Review findById(Long reviewId) {
+        return reviewRepository.findById(reviewId).orElse(null);
+    }
 }
