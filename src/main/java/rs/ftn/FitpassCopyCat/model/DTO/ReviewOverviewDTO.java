@@ -17,6 +17,7 @@ public class ReviewOverviewDTO {
     private LocalDateTime createdAt;
     private Boolean hidden;
     private String authorEmail;
+    private String authorImagePath;
     private String commentText;
     private RatingDTO ratingData;
     private FacilityOverviewDTO facilityData;
@@ -26,6 +27,7 @@ public class ReviewOverviewDTO {
         this.createdAt = r.getCreatedAt();
         this.hidden = r.getHidden();
         this.authorEmail = r.getAuthor().getEmail();
+        this.authorImagePath = r.getAuthor().getImage() == null ? null : r.getAuthor().getImage().getPath();
         this.commentText = r.getComment().getText();
         this.ratingData = new RatingDTO(r.getRating().getEquipment(), r.getRating().getStaff(), r.getRating().getHygiene(), r.getRating().getSpace());
         this.facilityData = new FacilityOverviewDTO(r.getFacility());

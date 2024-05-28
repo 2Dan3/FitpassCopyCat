@@ -38,7 +38,7 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<Void> writeReview(@Valid @RequestBody ReviewCreateDTO reviewData, Authentication authentication) {
         Facility facilityReviewed = facilityService.findById(reviewData.getFacilityId());
-        if (facilityReviewed == null)
+        if (facilityReviewed == null || ! facilityReviewed.getActive())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         User loggedReviewer = userService.findByEmail(authentication.getName());

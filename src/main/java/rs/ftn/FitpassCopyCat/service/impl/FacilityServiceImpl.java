@@ -43,4 +43,9 @@ public class FacilityServiceImpl implements FacilityService {
         return facilityRepository.findByActiveTrue();
     }
 
+    @Override
+    public Facility findByCommentLeft(Long commentId) {
+        return facilityRepository.findByCommentLeft(commentId);
+    }
+
 }

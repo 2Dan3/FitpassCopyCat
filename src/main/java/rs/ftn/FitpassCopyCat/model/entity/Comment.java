@@ -31,7 +31,8 @@ public class Comment {
 //    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
 //    private Set<Review> reviews = new HashSet<Review>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+//    todo might need to change to EAGER
+    @ManyToOne(fetch = FetchType.LAZY)
     private User author;
 
     @ManyToOne()
@@ -42,6 +43,13 @@ public class Comment {
         this.createdAt = creationTimestamp;
         this.author = author;
 //        this.parentComment =
+    }
+
+    public Comment(CommentCreateDTO commentData, User author, Comment parentComment) {
+        this.text = commentData.getText();
+        this.author = author;
+        this.parentComment = parentComment;
+        this.createdAt = LocalDateTime.now();
     }
 
     @Override

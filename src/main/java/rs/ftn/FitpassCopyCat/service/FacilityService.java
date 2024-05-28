@@ -12,4 +12,6 @@ public interface FacilityService {
     void updateFacilityRating(Facility facilityReviewed);
 
     List<Facility> getAllActive();
+
+    Facility findByCommentLeft(Long commentId);
 }

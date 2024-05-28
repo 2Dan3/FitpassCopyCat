@@ -56,7 +56,7 @@ public class TrainingController {
         if (loggedTrainee == null)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         Facility trainingFacility = facilityService.findById(trainingData.getFacilityId());
-        if (trainingFacility == null)
+        if (trainingFacility == null || ! trainingFacility.getActive())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         if (!trainingService.reservationIsWithinWorkHours(trainingData, trainingFacility))
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
