@@ -12,6 +12,7 @@ import rs.ftn.FitpassCopyCat.service.ImageService;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,12 +35,30 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public String saveUserImage(byte[] fileBytes, String originalFilename, User uploader) {
+        Path oldPath = null;
         Path newPath = Path.of(PATH + originalFilename);
+
+        if (uploader.getImage() != null) {
+            try {
+                oldPath = Path.of(uploader.getImage().getPath());
+            } catch (InvalidPathException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         Image newImage = new Image();
         newImage.setPath(newPath.toString());
         newImage.setUser(uploader);
         uploader.setImage(newImage);
+
+        if (oldPath != null) {
+            try {
+                Files.deleteIfExists(oldPath);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         try{
             Files.write(newPath, fileBytes);
@@ -54,8 +73,20 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void saveFacilityImages(HashMap<String, MultipartFile> files, Facility owningFacility) {
-        Set<Image> images = new HashSet<>();
+        Set<Image> newImages = new HashSet<>();
         Path newPath;
+
+        for (Image i : owningFacility.getImages()) {
+            try {
+                Path existingPath = Path.of(i.getPath());
+                Files.deleteIfExists(existingPath);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        owningFacility.setImages(new HashSet<>());
+//      todo - might need:
+//        imageRepository.deleteAllForFacility(owningFacility.getId());
 
         for (String name : files.keySet()) {
             MultipartFile f = files.get(name);
@@ -64,7 +95,7 @@ public class ImageServiceImpl implements ImageService {
             Image newImage = new Image();
             newImage.setPath(newPath.toString());
             newImage.setFacility(owningFacility);
-            images.add(newImage);
+            newImages.add(newImage);
 
             try{
                 Files.write(newPath, f.getBytes());
@@ -73,9 +104,9 @@ public class ImageServiceImpl implements ImageService {
             }
         }
 
-        owningFacility.setImages(images);
+        owningFacility.setImages(newImages);
 //        facilityRepository.save(owningFacility);
-        imageRepository.saveAll(images);
+        imageRepository.saveAll(newImages);
 //        imageRepository.saveAllAndFlush(images);
     }
 

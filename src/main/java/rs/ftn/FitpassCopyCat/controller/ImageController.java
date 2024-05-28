@@ -21,6 +21,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +65,10 @@ public class ImageController {
     @GetMapping
     public void getImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String imageURL = request.getParameter("path");
-        response.setContentType("image/jpeg");
+        String contentType = Files.probeContentType(Path.of(imageURL));
+        if (contentType == null)
+            contentType = "image/jpeg";
+        response.setContentType(contentType);
         ServletOutputStream out = response.getOutputStream();
         FileInputStream fis = new FileInputStream(imageURL);
 
