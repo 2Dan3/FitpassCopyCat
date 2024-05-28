@@ -62,10 +62,23 @@ public class FacilityController {
         return new ResponseEntity<>(new FacilityResponseDTO(facility, loggedUserManagesFacility), HttpStatus.OK);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<FacilityOverviewDTO>> getAllFacilities() {
+    @GetMapping(path = "/active")
+    public ResponseEntity<List<FacilityOverviewDTO>> getActiveFacilities() {
 
-        List<Facility> facilities = facilityService.getAllActive();
+        List<Facility> facilities = facilityService.findActive();
+
+        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
+        for (Facility f : facilities) {
+            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+        }
+
+        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<FacilityOverviewDTO>> getActiveAndInactiveFacilities() {
+
+        List<Facility> facilities = facilityService.findAll();
 
         List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
         for (Facility f : facilities) {
