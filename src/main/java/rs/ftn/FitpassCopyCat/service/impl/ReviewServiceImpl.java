@@ -25,11 +25,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> getReviewsByUser(User user) {
-        return reviewRepository.getAllByUserAndIsNotRemoved(user);
+        return reviewRepository.findByAuthorAndRemovedFalse(user);
     }
 
     @Override
     public List<Review> getReviewsOnFacility(Facility facility) {
-        return reviewRepository.getAllByFacilityAndIsNotRemoved(facility);
+        return reviewRepository.findByFacilityAndRemovedFalse(facility);
     }
 }

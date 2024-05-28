@@ -11,5 +11,5 @@ import java.util.List;
 public interface FacilityRepository extends JpaRepository<Facility, Long> {
 
 //    @Query("select f from Facility f where f.active = true")
-    List<Facility> getAllActive();
+    List<Facility> findByActiveTrue();
 }

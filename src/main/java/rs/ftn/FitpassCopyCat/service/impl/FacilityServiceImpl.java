@@ -40,7 +40,7 @@ public class FacilityServiceImpl implements FacilityService {
 
     @Override
     public List<Facility> getAllActive() {
-        return facilityRepository.getAllActive();
+        return facilityRepository.findByActiveTrue();
     }
 
 }

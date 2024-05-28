@@ -13,19 +13,20 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query("select ((avg(rt.equipment) + avg(rt.hygiene) + avg(rt.space) + avg(rt.staff)) / 4)\n" +
-            "from Facility fc\n" +
-            "join Review rw on rw.facility.id = fc.id\n" +
-            "join Rating rt on rt.id = rw.rating.id\n" +
-            "where fc.id = :facilityReviewedId" +
+    @Query(nativeQuery = true,
+            value = "select ((avg(rt.equipment) + avg(rt.hygiene) + avg(rt.space) + avg(rt.staff)) / 4) \n" +
+            "from facility fc, review rw, rating rt \n" +
+            "join rw on rw.facility_id = fc.facility_id \n" +
+            "join rt on rt.rating_id = rw.rating_id \n" +
+            "where fc.facility_id = :facilityReviewedId " +
             "and rw.removed = false")
     Double findAverageReviewRating(Long facilityReviewedId);
 
 //  todo
 //    @Query("select r from Review r where r.author.id = :authorId")
-    List<Review> getAllByUserAndIsNotRemoved(User user);
+    List<Review> findByAuthorAndRemovedFalse(User user);
 
 //  todo
 //    @Query("select r from Review r where r.facility.id = :facilityId")
-    List<Review> getAllByFacilityAndIsNotRemoved(Facility facility);
+    List<Review> findByFacilityAndRemovedFalse(Facility facility);
 }
