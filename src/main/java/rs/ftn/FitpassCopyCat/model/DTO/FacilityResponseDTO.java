@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rs.ftn.FitpassCopyCat.model.entity.Discipline;
-import rs.ftn.FitpassCopyCat.model.entity.Facility;
-import rs.ftn.FitpassCopyCat.model.entity.User;
-import rs.ftn.FitpassCopyCat.model.entity.WorkDay;
+import rs.ftn.FitpassCopyCat.model.entity.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,6 +26,7 @@ public class FacilityResponseDTO {
     private List<String> managerEmails;
     private List<String> disciplineNames;
     private List<WorkDayDTO> workDayDTOS;
+    private List<String> imagePaths;
 
     public FacilityResponseDTO(Facility facility) {
         this.id = facility.getId();
@@ -53,6 +51,11 @@ public class FacilityResponseDTO {
         this.workDayDTOS = new ArrayList<>();
         for (WorkDay workDay : facility.getWorkDays()) {
             workDayDTOS.add(new WorkDayDTO(workDay));
+        }
+
+        this.imagePaths = new ArrayList<>();
+        for (Image i : facility.getImages()) {
+            imagePaths.add(i.getPath());
         }
     }
 }

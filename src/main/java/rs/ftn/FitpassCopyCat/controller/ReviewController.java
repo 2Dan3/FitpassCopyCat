@@ -4,17 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import rs.ftn.FitpassCopyCat.model.DTO.ReviewCreateDTO;
+import rs.ftn.FitpassCopyCat.model.DTO.ReviewOverviewDTO;
 import rs.ftn.FitpassCopyCat.model.entity.Facility;
 import rs.ftn.FitpassCopyCat.model.entity.Review;
 import rs.ftn.FitpassCopyCat.model.entity.User;
 import rs.ftn.FitpassCopyCat.service.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "${apiPrefix}/reviews")
@@ -51,7 +51,23 @@ public class ReviewController {
 
         Review unsavedReview = new Review(reviewData, facilityReviewed, loggedReviewer, reviewerTrainingCountInFacility);
         /*Review newReview = */reviewService.save(unsavedReview);
+        facilityService.updateFacilityRating(facilityReviewed);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ReviewOverviewDTO>> getOwnReviews(Authentication authentication) {
+        User loggedUser = userService.findByEmail(authentication.getName());
+        if (loggedUser == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        List<ReviewOverviewDTO> reviewDTOs = new ArrayList<>();
+        List<Review> reviewsWritten = reviewService.getReviewsByUser(loggedUser);
+        for (Review r : reviewsWritten) {
+            reviewDTOs.add(new ReviewOverviewDTO(r));
+        }
+
+        return new ResponseEntity<>(reviewDTOs, HttpStatus.OK);
     }
 }

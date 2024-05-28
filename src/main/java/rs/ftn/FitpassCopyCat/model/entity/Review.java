@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import rs.ftn.FitpassCopyCat.model.DTO.CommentCreateDTO;
-import rs.ftn.FitpassCopyCat.model.DTO.RatingCreateDTO;
+import rs.ftn.FitpassCopyCat.model.DTO.RatingDTO;
 import rs.ftn.FitpassCopyCat.model.DTO.ReviewCreateDTO;
 
 import javax.persistence.*;
@@ -29,6 +29,8 @@ public class Review {
     private Integer trainingCount;
     @Column
     private Boolean hidden;
+    @Column
+    private Boolean removed;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rating_id")
@@ -75,12 +77,13 @@ public class Review {
             Comment newComment = new Comment(commentData, author, creationTimestamp);
             this.comment = newComment;
         }
-        RatingCreateDTO ratingData = reviewData.getRatingData();
+        RatingDTO ratingData = reviewData.getRatingData();
         this.rating = new Rating(ratingData);
         this.author = author;
         this.facility = facilityReviewed;
         trainingCount = trainingsDone;
         hidden = false;
+        removed = false;
         createdAt = creationTimestamp;
     }
 }

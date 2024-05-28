@@ -6,4 +6,6 @@ public interface FacilityService {
     Facility findById(Long id);
 
     Facility save(Facility newFacility);
+
+    void updateFacilityRating(Facility facilityReviewed);
 }

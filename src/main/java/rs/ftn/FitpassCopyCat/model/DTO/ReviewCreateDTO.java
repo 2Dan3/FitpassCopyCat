@@ -17,6 +17,6 @@ public class ReviewCreateDTO {
     @NotBlank
     private Long facilityId;
 //    @NotBlank
-    private RatingCreateDTO ratingData;
+    private RatingDTO ratingData;
     private CommentCreateDTO commentData;
 }

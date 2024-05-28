@@ -7,22 +7,30 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import rs.ftn.FitpassCopyCat.model.DTO.FacilityCreateDTO;
 import rs.ftn.FitpassCopyCat.model.DTO.FacilityResponseDTO;
+import rs.ftn.FitpassCopyCat.model.DTO.ReviewOverviewDTO;
 import rs.ftn.FitpassCopyCat.model.entity.Facility;
+import rs.ftn.FitpassCopyCat.model.entity.Review;
 import rs.ftn.FitpassCopyCat.model.entity.User;
 import rs.ftn.FitpassCopyCat.service.FacilityService;
+import rs.ftn.FitpassCopyCat.service.ReviewService;
 import rs.ftn.FitpassCopyCat.service.UserService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "${apiPrefix}/facilities")
 public class FacilityController {
     private FacilityService facilityService;
     private UserService userService;
+    private ReviewService reviewService;
     @Autowired
-    public FacilityController(FacilityService facilityService, UserService userService) {
+    public FacilityController(FacilityService facilityService, UserService userService,
+                              ReviewService reviewService) {
         this.facilityService = facilityService;
         this.userService = userService;
+        this.reviewService = reviewService;
     }
 
     @PostMapping
@@ -83,5 +91,20 @@ public class FacilityController {
         facilityService.save(targetedFacility);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping(path = "/{facilityId}/reviews")
+    public ResponseEntity<List<ReviewOverviewDTO>> getAllReviewsOnFacility(@PathVariable(name = "facilityId") Long facilityId) {
+        Facility facility = facilityService.findById(facilityId);
+        if (facility == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        List<ReviewOverviewDTO> reviewDTOs = new ArrayList<>();
+        List<Review> reviewsWritten = reviewService.getReviewsOnFacility(facility);
+        for (Review r : reviewsWritten) {
+            reviewDTOs.add(new ReviewOverviewDTO(r));
+        }
+
+        return new ResponseEntity<>(reviewDTOs, HttpStatus.OK);
     }
 }

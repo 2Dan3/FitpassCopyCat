@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rs.ftn.FitpassCopyCat.model.DTO.RatingCreateDTO;
+import rs.ftn.FitpassCopyCat.model.DTO.RatingDTO;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "rating")
@@ -30,7 +28,7 @@ public class Rating {
     @Column
     private Integer space;
 
-    public Rating(RatingCreateDTO ratingData) {
+    public Rating(RatingDTO ratingData) {
         this.equipment = ratingData.getEquipment();
         this.staff = ratingData.getStaff();
         this.hygiene = ratingData.getHygiene();

@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RatingCreateDTO {
+public class RatingDTO {
     @NotBlank
     @Min(1)
     @Max(10)

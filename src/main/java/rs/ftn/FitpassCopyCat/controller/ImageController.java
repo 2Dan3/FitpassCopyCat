@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "${apiPrefix}/image")
+@RequestMapping(path = "${apiPrefix}/images")
 public class ImageController {
     private ImageService imageService;
     private UserService userService;
