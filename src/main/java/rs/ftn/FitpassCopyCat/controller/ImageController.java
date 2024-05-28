@@ -51,11 +51,15 @@ public class ImageController {
     }
 
     @PostMapping(path = "/facility/{id}")
-    public ResponseEntity<Map<String,String>> uploadFacilityImages(@RequestBody @NotBlank HashMap<String, MultipartFile> files, @PathVariable Long id) throws IOException {
+    public ResponseEntity<Void> uploadFacilityImages(@RequestBody @NotBlank HashMap<String, MultipartFile> files, @PathVariable Long id, Authentication authentication) {
 
         Facility targetFacility = facilityService.findById(id);
         if (targetFacility == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        User loggedUploader = userService.findByEmail(authentication.getName());
+        if (loggedUploader == null || !userService.managesFacility(targetFacility.getId(), loggedUploader))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         /*String path =*/ imageService.saveFacilityImages(files, targetFacility);
         return ResponseEntity.status(HttpStatus.OK).build();
