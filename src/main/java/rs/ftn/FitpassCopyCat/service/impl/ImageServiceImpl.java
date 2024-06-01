@@ -16,6 +16,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -72,7 +73,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void saveFacilityImages(HashMap<String, MultipartFile> files, Facility owningFacility) {
+    public void saveFacilityImages(List<MultipartFile> files, Facility owningFacility) {
         Set<Image> newImages = new HashSet<>();
         Path newPath;
 
@@ -85,11 +86,10 @@ public class ImageServiceImpl implements ImageService {
             }
         }
         owningFacility.setImages(new HashSet<>());
-//      todo - might need:
+//      todo - might also need to:
 //        imageRepository.deleteAllForFacility(owningFacility.getId());
 
-        for (String name : files.keySet()) {
-            MultipartFile f = files.get(name);
+        for (MultipartFile f : files) {
 
             newPath = Path.of(PATH + f.getOriginalFilename());
             Image newImage = new Image();

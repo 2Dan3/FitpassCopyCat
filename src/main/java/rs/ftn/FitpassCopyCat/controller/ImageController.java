@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -50,8 +51,8 @@ public class ImageController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(path = "/facility/{id}")
-    public ResponseEntity<Void> uploadFacilityImages(@RequestBody @NotBlank HashMap<String, MultipartFile> files, @PathVariable Long id, Authentication authentication) {
+    @PostMapping(path = "/facility/{id}")           //@RequestBody @NotBlank HashMap<String, MultipartFile> files,
+    public ResponseEntity<Void> uploadFacilityImages(@RequestParam("files") List<MultipartFile> files, @PathVariable Long id, Authentication authentication) {
 
         Facility targetFacility = facilityService.findById(id);
         if (targetFacility == null)

@@ -1,6 +1,7 @@
 package rs.ftn.FitpassCopyCat.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,8 @@ import rs.ftn.FitpassCopyCat.service.ReviewService;
 import rs.ftn.FitpassCopyCat.service.UserService;
 
 import javax.validation.Valid;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +82,19 @@ public class FacilityController {
     public ResponseEntity<List<FacilityOverviewDTO>> getActiveAndInactiveFacilities() {
 
         List<Facility> facilities = facilityService.findAll();
+
+        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
+        for (Facility f : facilities) {
+            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+        }
+
+        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/search")
+    public ResponseEntity<List<FacilityOverviewDTO>> filterActiveFacilities(@RequestParam("cities") List<String> cities, @RequestParam("disciplines") List<String> disciplineNames, @RequestParam("ratingMin") Integer ratingMin, @RequestParam("ratingMax") Integer ratingMax, @RequestParam("weekDay") String dayOfWeek, @RequestParam("hoursFrom") @DateTimeFormat(pattern = "HH:mm") final LocalTime hoursFrom, @RequestParam("hoursUntil") @DateTimeFormat(pattern = "HH:mm") final LocalTime hoursUntil) {
+
+        List<Facility> facilities = facilityService.findActiveByFilters(cities, disciplineNames, ratingMin, ratingMax, DayOfWeek.valueOf(dayOfWeek), hoursFrom, hoursUntil);
 
         List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
         for (Facility f : facilities) {

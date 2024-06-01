@@ -15,6 +15,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class WorkDayDTO {
+    private Long id;
     @NotBlank
     private DayOfWeek day;
     @NotBlank
@@ -23,6 +24,7 @@ public class WorkDayDTO {
     private LocalTime until;
 
     public WorkDayDTO(WorkDay workDay) {
+        this.id = workDay.getId();
         this.day = workDay.getDay();
         this.from = workDay.getFromHours();
         this.until = workDay.getUntilHours();

@@ -20,7 +20,7 @@ public class FacilityCreateDTO {
     @NotBlank
     private String city;
 //    @NotBlank
-    private List<DisciplineDTO> disciplineDTO;
+    private List<DisciplineCreateDTO> disciplineDTO;
 //    @NotBlank
     private List<WorkDayDTO> workDaysDTO;
 }

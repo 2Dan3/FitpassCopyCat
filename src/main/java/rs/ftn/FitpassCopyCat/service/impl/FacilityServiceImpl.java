@@ -7,6 +7,8 @@ import rs.ftn.FitpassCopyCat.repository.FacilityRepository;
 import rs.ftn.FitpassCopyCat.repository.ReviewRepository;
 import rs.ftn.FitpassCopyCat.service.FacilityService;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +53,11 @@ public class FacilityServiceImpl implements FacilityService {
     @Override
     public List<Facility> findAll() {
         return facilityRepository.findAll();
+    }
+
+    @Override
+    public List<Facility> findActiveByFilters(List<String> cities, List<String> disciplineNames, Integer ratingMin, Integer ratingMax, DayOfWeek dayOfWeek, LocalTime hoursFrom, LocalTime hoursUntil) {
+        return null;
     }
 
 }

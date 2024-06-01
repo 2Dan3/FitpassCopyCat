@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rs.ftn.FitpassCopyCat.model.DTO.DisciplineDTO;
+import rs.ftn.FitpassCopyCat.model.DTO.DisciplineCreateDTO;
 import rs.ftn.FitpassCopyCat.model.DTO.FacilityCreateDTO;
 import rs.ftn.FitpassCopyCat.model.DTO.WorkDayDTO;
 
@@ -76,7 +76,7 @@ public class Facility {
         city = facilityCreateDTO.getCity();
         active = true;
 
-        for (DisciplineDTO d : facilityCreateDTO.getDisciplineDTO()) {
+        for (DisciplineCreateDTO d : facilityCreateDTO.getDisciplineDTO()) {
             Discipline dsc = new Discipline(d, this);
             disciplines.add(dsc);
         }

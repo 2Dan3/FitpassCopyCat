@@ -5,9 +5,10 @@ import rs.ftn.FitpassCopyCat.model.entity.Facility;
 import rs.ftn.FitpassCopyCat.model.entity.User;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface ImageService {
     String saveUserImage(byte[] fileBytes, String originalFilename, User uploader);
 
-    void saveFacilityImages(HashMap<String, MultipartFile> files, Facility owningFacility);
+    void saveFacilityImages(List<MultipartFile> files, Facility owningFacility);
 }

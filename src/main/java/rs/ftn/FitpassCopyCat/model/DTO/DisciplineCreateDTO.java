@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DisciplineDTO {
+public class DisciplineCreateDTO {
     @NotBlank
     private String name;
 }

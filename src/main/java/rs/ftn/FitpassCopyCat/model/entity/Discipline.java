@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rs.ftn.FitpassCopyCat.model.DTO.DisciplineDTO;
+import rs.ftn.FitpassCopyCat.model.DTO.DisciplineCreateDTO;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "discipline")
@@ -45,7 +44,7 @@ public class Discipline {
         return 3111;
     }
 
-    public Discipline(DisciplineDTO disciplineDTO, Facility facility) {
+    public Discipline(DisciplineCreateDTO disciplineDTO, Facility facility) {
         this.name = disciplineDTO.getName();
         this.facility = facility;
     }

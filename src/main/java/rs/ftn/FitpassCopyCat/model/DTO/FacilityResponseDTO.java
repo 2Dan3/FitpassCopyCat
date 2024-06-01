@@ -25,7 +25,7 @@ public class FacilityResponseDTO {
     private Boolean active;
     private Boolean loggedUserManages = false;
     private List<String> managerEmails;
-    private List<String> disciplineNames;
+    private List<DisciplineResponseDTO> disciplines;
     private List<WorkDayDTO> workDayDTOS;
     private List<String> imagePaths;
 
@@ -45,9 +45,9 @@ public class FacilityResponseDTO {
             this.managerEmails.add(manager.getEmail());
         }
 
-        this.disciplineNames = new ArrayList<>();
+        this.disciplines = new ArrayList<>();
         for (Discipline d : facility.getDisciplines()) {
-            this.disciplineNames.add(d.getName());
+            this.disciplines.add(new DisciplineResponseDTO(d));
         }
 
         this.workDayDTOS = new ArrayList<>();
