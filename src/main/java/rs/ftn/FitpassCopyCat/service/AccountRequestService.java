@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AccountRequestService {
     List<AccountRequest> findAll();
+
+    AccountRequest findById(Long id);
 }

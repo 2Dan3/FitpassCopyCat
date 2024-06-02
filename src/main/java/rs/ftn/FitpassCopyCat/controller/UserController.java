@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping(consumes = "application/json", value = "/")
-    public ResponseEntity requestAccountRegistration(@Valid @RequestBody AccountRequestDTO newAccount){
+    public ResponseEntity<Void> requestAccountRegistration(@Valid @RequestBody AccountRequestDTO newAccount){
 
         AccountRequest createdAccountRequest = userService.createAccountRequest(newAccount);
         if(createdAccountRequest == null){
@@ -105,19 +105,23 @@ public class UserController {
     }
 
 
-// todo
-//    @PostMapping(consumes = "application/json", value = "/register")
-//    public ResponseEntity<UserDTO> registerNewUser(@Valid @RequestBody UserDTO newUser){
-//
-//        User createdUser = userService.createUser(newUser);
-//
-//        if(createdUser == null){
-//            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
-//        }
-//        UserDTO userDTO = new UserDTO(createdUser);
-//
-//        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
-//    }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(consumes = "application/json", value = "/register/{requestId}")
+    public ResponseEntity<UserAccountConfirmationDTO> acceptAccountRequestAndRegister(@PathVariable Long requestId){
+
+        AccountRequest accReq = accountRequestService.findById(requestId);
+        if (accReq == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        User createdUser = userService.createUser(accReq);
+
+        if(createdUser == null){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        UserAccountConfirmationDTO userDTO = new UserAccountConfirmationDTO(createdUser);
+
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
 
 //  todo
 //    @GetMapping("/all")

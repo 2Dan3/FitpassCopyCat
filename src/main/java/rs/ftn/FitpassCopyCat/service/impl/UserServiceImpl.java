@@ -11,22 +11,25 @@ import rs.ftn.FitpassCopyCat.model.entity.User;
 import rs.ftn.FitpassCopyCat.model.enums.RequestStatus;
 import rs.ftn.FitpassCopyCat.repository.AccountRequestRepository;
 import rs.ftn.FitpassCopyCat.repository.UserRepository;
+import rs.ftn.FitpassCopyCat.service.EmailService;
 import rs.ftn.FitpassCopyCat.service.UserService;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserServiceImpl implements UserService {
     private AccountRequestRepository accountRequestRepository;
     private UserRepository userRepository;
-
+    private EmailService emailService;
     private PasswordEncoder passwordEncoder;
     @Autowired
-    public UserServiceImpl(@Lazy PasswordEncoder passwordEnc, AccountRequestRepository accountRequestRepository, UserRepository userRepository) {
+    public UserServiceImpl(@Lazy PasswordEncoder passwordEnc, AccountRequestRepository accountRequestRepository, UserRepository userRepository, @Lazy EmailService emailService) {
         this.passwordEncoder = passwordEnc;
         this.accountRequestRepository = accountRequestRepository;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -44,6 +47,30 @@ public class UserServiceImpl implements UserService {
             return user.get();
         }
         return null;
+    }
+
+    @Override
+    public User createUser(AccountRequest accReq) {
+        String initiallyGeneratedPassword = generateRandomAlphanumeric();
+        String encodedPassword = passwordEncoder.encode(initiallyGeneratedPassword);
+        User newAccountUser = userRepository.save(new User(accReq, encodedPassword));
+        emailService.sendEmailWithPassword(accReq.getEmail(), initiallyGeneratedPassword);
+
+        return newAccountUser;
+    }
+
+    private String generateRandomAlphanumeric() {
+        final int leftLimit = 48; // numeral '0'
+        final int rightLimit = 122; // letter 'z'
+        final int targetStringLength = 16;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        return generatedString;
     }
 
     @Override
@@ -80,6 +107,9 @@ public class UserServiceImpl implements UserService {
             currentUser.setPhoneNumber(newData.getPhoneNumber());
 //            todo the rest of user data is separated in API Endpoint "verifyAccount",
 //             where account data is only being put in for the very 1st time
+            currentUser.setName(newData.getName());
+            currentUser.setSurname(newData.getSurname());
+            currentUser.setBirthday(newData.getBirthday());
 
             userRepository.save(currentUser);
             return true;
@@ -97,6 +127,7 @@ public class UserServiceImpl implements UserService {
             return false;
         foundUser.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(foundUser);
+        emailService.sendEmailWithPassword(foundUser.getEmail(), newPassword);
         return true;
     }
 

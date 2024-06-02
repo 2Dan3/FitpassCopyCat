@@ -40,6 +40,8 @@ public interface UserService {
     void save(User newManager);
 
     User findById(Long id);
+
+    User createUser(AccountRequest accReq);
 //    //    TODO: use for checks in Web's configure()
 //    boolean isUserBanned(User user, Community community);
 //

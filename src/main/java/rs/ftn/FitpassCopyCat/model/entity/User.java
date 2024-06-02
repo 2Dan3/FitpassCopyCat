@@ -65,6 +65,14 @@ public class User implements Serializable {
     @Column(nullable = false, insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private Roles role;
+
+    public User(AccountRequest accReq, String password) {
+        this.email = accReq.getEmail();
+        this.password = password;
+        this.createdAt = LocalDate.now();
+        this.address = accReq.getAddress();
+    }
+
     @Transient
     public String getRole(){
         return this.getClass().getAnnotation(DiscriminatorValue.class).value();

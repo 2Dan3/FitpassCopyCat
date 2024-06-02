@@ -24,4 +24,9 @@ public class AccountRequestServiceImpl implements AccountRequestService {
         return this.accountRequestRepository.findAll();
     }
 
+    @Override
+    public AccountRequest findById(Long id) {
+        return accountRequestRepository.findById(id).orElse(null);
+    }
+
 }

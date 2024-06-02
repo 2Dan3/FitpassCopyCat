@@ -17,7 +17,6 @@ public class ChangeDataUserDTO {
     @NotBlank
     @Email(message = "Invalid email format", regexp = ".+[@].+[\\.].+")
     private String email;
-    @NotBlank
     private String password;
     @NotBlank
     private String name;
