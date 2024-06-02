@@ -116,6 +116,46 @@ public class FacilityController {
 
     }
 
+    @GetMapping(path = "/visited")
+    public ResponseEntity<List<FacilityOverviewDTO>> getVisitedFacilities(Authentication authentication) {
+        User loggedUser = userService.findByEmail(authentication.getName());
+
+        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
+        List<Facility> visitedFacilities = facilityService.findVisitedByUser(loggedUser);
+        for (Facility f : visitedFacilities) {
+            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+        }
+
+        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/popular")
+    public ResponseEntity<List<FacilityOverviewDTO>> getPopularFacilities() {
+
+        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
+        List<Facility> mostPopular = facilityService.findMostPopular();
+
+        for (Facility f : mostPopular) {
+            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+        }
+
+        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/explore")
+    public ResponseEntity<List<FacilityOverviewDTO>> getUnexploredFacilities(@RequestParam(name = "limitTo5", defaultValue = "true") Boolean limitTo5,Authentication authentication) {
+        User loggedUser = userService.findByEmail(authentication.getName());
+
+        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
+        List<Facility> unexplored = facilityService.findUnexplored(loggedUser, limitTo5);
+
+        for (Facility f : unexplored) {
+            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+        }
+
+        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
+    }
+
     @PutMapping(path = "/{facilityId}/managers")
     public ResponseEntity<Void> putManager(@PathVariable(name = "facilityId") Long facilityId, @RequestBody String userEmail) {
 

@@ -3,6 +3,7 @@ package rs.ftn.FitpassCopyCat.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ftn.FitpassCopyCat.model.entity.Facility;
+import rs.ftn.FitpassCopyCat.model.entity.User;
 import rs.ftn.FitpassCopyCat.repository.FacilityFilterRepositoryImpl;
 import rs.ftn.FitpassCopyCat.repository.FacilityRepository;
 import rs.ftn.FitpassCopyCat.repository.ReviewRepository;
@@ -66,6 +67,21 @@ public class FacilityServiceImpl implements FacilityService {
                                         LocalTime hoursUntil,
                                         Boolean active) throws IllegalArgumentException{
         return facilityFilterRepository.findByFilters(cities, disciplineNames, ratingMin, ratingMax, dayOfWeek, hoursFrom, hoursUntil, active);
+    }
+
+    @Override
+    public List<Facility> findVisitedByUser(User user) {
+        return facilityRepository.findVisitedByUser(user.getId());
+    }
+
+    @Override
+    public List<Facility> findMostPopular() {
+        return facilityRepository.findMostPopular();
+    }
+
+    @Override
+    public List<Facility> findUnexplored(User user, Boolean limitTo5) {
+        return limitTo5 ? facilityRepository.findUnexploredLimit5(user.getId()) : facilityRepository.findUnexplored(user.getId());
     }
 
 }
