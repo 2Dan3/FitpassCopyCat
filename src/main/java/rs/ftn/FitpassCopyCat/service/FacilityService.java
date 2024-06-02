@@ -2,7 +2,6 @@ package rs.ftn.FitpassCopyCat.service;
 
 import rs.ftn.FitpassCopyCat.model.entity.Facility;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -19,5 +18,5 @@ public interface FacilityService {
 
     List<Facility> findAll();
 
-    List<Facility> findActiveByFilters(List<String> cities, List<String> disciplineNames, Integer ratingMin, Integer ratingMax, DayOfWeek dayOfWeek, LocalTime hoursFrom, LocalTime hoursUntil);
+    List<Facility> findByFilters(List<String> cities, List<String> disciplineNames, Integer ratingMin, Integer ratingMax, String dayOfWeek, LocalTime hoursFrom, LocalTime hoursUntil, Boolean active) throws IllegalArgumentException;
 }

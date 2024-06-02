@@ -3,11 +3,11 @@ package rs.ftn.FitpassCopyCat.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ftn.FitpassCopyCat.model.entity.Facility;
+import rs.ftn.FitpassCopyCat.repository.FacilityFilterRepositoryImpl;
 import rs.ftn.FitpassCopyCat.repository.FacilityRepository;
 import rs.ftn.FitpassCopyCat.repository.ReviewRepository;
 import rs.ftn.FitpassCopyCat.service.FacilityService;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +15,7 @@ import java.util.Optional;
 @Service
 public class FacilityServiceImpl implements FacilityService {
     private FacilityRepository facilityRepository;
+    private FacilityFilterRepositoryImpl facilityFilterRepository;
     private ReviewRepository reviewRepository;
     @Autowired
     public FacilityServiceImpl(FacilityRepository facilityRepository, ReviewRepository reviewRepository){
@@ -56,8 +57,15 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
-    public List<Facility> findActiveByFilters(List<String> cities, List<String> disciplineNames, Integer ratingMin, Integer ratingMax, DayOfWeek dayOfWeek, LocalTime hoursFrom, LocalTime hoursUntil) {
-        return null;
+    public List<Facility> findByFilters(List<String> cities,
+                                        List<String> disciplineNames,
+                                        Integer ratingMin,
+                                        Integer ratingMax,
+                                        String dayOfWeek,
+                                        LocalTime hoursFrom,
+                                        LocalTime hoursUntil,
+                                        Boolean active) throws IllegalArgumentException{
+        return facilityFilterRepository.findByFilters(cities, disciplineNames, ratingMin, ratingMax, dayOfWeek, hoursFrom, hoursUntil, active);
     }
 
 }

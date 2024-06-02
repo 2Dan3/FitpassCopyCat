@@ -23,6 +23,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static rs.ftn.FitpassCopyCat.repository.FacilityFilterRepositoryImpl.DAY_OF_WEEK_DEFAULT_VALUE;
+
 @RestController
 @RequestMapping(path = "${apiPrefix}/facilities")
 public class FacilityController {
@@ -65,43 +67,53 @@ public class FacilityController {
         return new ResponseEntity<>(new FacilityResponseDTO(facility, loggedUserManagesFacility), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/active")
-    public ResponseEntity<List<FacilityOverviewDTO>> getActiveFacilities() {
+//    @GetMapping(path = "/active")
+//    public ResponseEntity<List<FacilityOverviewDTO>> getActiveFacilities() {
+//
+//        List<Facility> facilities = facilityService.findActive();
+//
+//        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
+//        for (Facility f : facilities) {
+//            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+//        }
+//
+//        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
+//    }
+//
+//    @GetMapping(path = "/all")
+//    public ResponseEntity<List<FacilityOverviewDTO>> getActiveAndInactiveFacilities() {
+//
+//        List<Facility> facilities = facilityService.findAll();
+//
+//        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
+//        for (Facility f : facilities) {
+//            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+//        }
+//
+//        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
+//    }
 
-        List<Facility> facilities = facilityService.findActive();
+    @GetMapping
+    public ResponseEntity<List<FacilityOverviewDTO>> getFacilitiesByFilters(@RequestParam(name = "cities", required = false) List<String> cities, @RequestParam(name = "disciplines", required = false) List<String> disciplineNames,
+                                                                            @RequestParam(name = "ratingMin", required = false) Integer ratingMin, @RequestParam(name = "ratingMax", required = false) Integer ratingMax,
+                                                                            @RequestParam(name = "weekDay", required = false, defaultValue = DAY_OF_WEEK_DEFAULT_VALUE) String dayOfWeek,
+                                                                            @RequestParam(name = "hoursFrom", required = false) @DateTimeFormat(pattern = "HH:mm") final LocalTime hoursFrom,
+                                                                            @RequestParam(name = "hoursUntil", required = false) @DateTimeFormat(pattern = "HH:mm") final LocalTime hoursUntil,
+                                                                            @RequestParam(name = "active", required = false, defaultValue = "true") Boolean active) {
+        try {
+            List<Facility> facilities = facilityService.findByFilters(cities, disciplineNames, ratingMin, ratingMax, dayOfWeek, hoursFrom, hoursUntil, active);
 
-        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
-        for (Facility f : facilities) {
-            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+            List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
+            for (Facility f : facilities) {
+                facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
+            }
+
+            return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
+
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/all")
-    public ResponseEntity<List<FacilityOverviewDTO>> getActiveAndInactiveFacilities() {
-
-        List<Facility> facilities = facilityService.findAll();
-
-        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
-        for (Facility f : facilities) {
-            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
-        }
-
-        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/search")
-    public ResponseEntity<List<FacilityOverviewDTO>> filterActiveFacilities(@RequestParam("cities") List<String> cities, @RequestParam("disciplines") List<String> disciplineNames, @RequestParam("ratingMin") Integer ratingMin, @RequestParam("ratingMax") Integer ratingMax, @RequestParam("weekDay") String dayOfWeek, @RequestParam("hoursFrom") @DateTimeFormat(pattern = "HH:mm") final LocalTime hoursFrom, @RequestParam("hoursUntil") @DateTimeFormat(pattern = "HH:mm") final LocalTime hoursUntil) {
-
-        List<Facility> facilities = facilityService.findActiveByFilters(cities, disciplineNames, ratingMin, ratingMax, DayOfWeek.valueOf(dayOfWeek), hoursFrom, hoursUntil);
-
-        List<FacilityOverviewDTO> facilityOverviewDTOs = new ArrayList<>();
-        for (Facility f : facilities) {
-            facilityOverviewDTOs.add(new FacilityOverviewDTO(f));
-        }
-
-        return new ResponseEntity<>(facilityOverviewDTOs, HttpStatus.OK);
     }
 
     @PutMapping(path = "/{facilityId}/managers")
